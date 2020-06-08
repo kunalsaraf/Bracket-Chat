@@ -159,34 +159,37 @@ class _ChatScreenState extends State<ChatScreen> {
                         _messageTextController.clear();
                         String _typedMessage = _messageBeingTyped;
                         String _timeOfMessage = DateTime.now().toString();
-                        try {
-                          await _firestore
-                              .collection('users')
-                              .document(_userEmail)
-                              .collection('messages')
-                              .add(
-                            {
-                              'sender': _userEmail,
-                              'receiver': _receiverEmail,
-                              'text': _typedMessage,
-                              'timeStamp': _timeOfMessage,
-                            },
-                          );
+                        _messageBeingTyped = null;
+                        if (_typedMessage != null) {
+                          try {
+                            await _firestore
+                                .collection('users')
+                                .document(_userEmail)
+                                .collection('messages')
+                                .add(
+                              {
+                                'sender': _userEmail,
+                                'receiver': _receiverEmail,
+                                'text': _typedMessage,
+                                'timeStamp': _timeOfMessage,
+                              },
+                            );
 
-                          await _firestore
-                              .collection('users')
-                              .document(_receiverEmail)
-                              .collection('messages')
-                              .add(
-                            {
-                              'sender': _userEmail,
-                              'receiver': _receiverEmail,
-                              'text': _typedMessage,
-                              'timeStamp': _timeOfMessage,
-                            },
-                          );
-                        } catch (e) {
-                          print(e);
+                            await _firestore
+                                .collection('users')
+                                .document(_receiverEmail)
+                                .collection('messages')
+                                .add(
+                              {
+                                'sender': _userEmail,
+                                'receiver': _receiverEmail,
+                                'text': _typedMessage,
+                                'timeStamp': _timeOfMessage,
+                              },
+                            );
+                          } catch (e) {
+                            print(e);
+                          }
                         }
                       },
                       child: CircleAvatar(
@@ -227,10 +230,10 @@ class MessageStream extends StatelessWidget {
         }
         List<DocumentSnapshot> messages = snapshot.data.documents;
         messages.sort((a, b) {
-          DateTime A = DateTime.parse(a.data['timeStamp']);
-          DateTime B = DateTime.parse(b.data['timeStamp']);
-          if (A.compareTo(B) < 0) return 1;
-          return 0;
+//          DateTime A = DateTime.parse(a.data['timeStamp']);
+//          DateTime B = DateTime.parse(b.data['timeStamp']);
+          return DateTime.parse(b["timeStamp"])
+              .compareTo(DateTime.parse(a["timeStamp"]));
         });
         List<MessageBubble> messageWidget = <MessageBubble>[];
         for (var message in messages) {
@@ -267,9 +270,9 @@ class MessageStream extends StatelessWidget {
     );
   }
 
-  String getDateInRequiredFormat(timeStamp) {
+  String getDateInRequiredFormat(String timeStamp) {
     DateTime dateTime = DateTime.parse(timeStamp);
     return formatDate(
-        dateTime, [dd, '/', mm, '/', yyyy, ' ', hh, ':', mm, ' ', am]);
+        dateTime, [dd, '/', mm, '/', yyyy, ' ', hh, ':', nn, ' ', am]);
   }
 }

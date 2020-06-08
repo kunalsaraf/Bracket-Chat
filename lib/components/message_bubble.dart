@@ -5,7 +5,11 @@ class MessageBubble extends StatelessWidget {
   final bool isMe;
   final String timeStamp;
 
-  MessageBubble({this.text = 'Loading', this.isMe, this.timeStamp = 'Loading'});
+  MessageBubble({
+    this.text = 'Loading',
+    this.isMe,
+    this.timeStamp = 'Loading',
+  });
 
   @override
   Widget build(BuildContext context) {
