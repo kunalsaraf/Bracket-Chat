@@ -1,4 +1,4 @@
-![Bracket Chat Logo](assets/images/bracket_icon.png){:height="200px" width="200px"}
+![Bracket Chat Logo](assets/images/bracket_icon.png){height:200px; width:200px;}
 
 # Bracket Chat
 
