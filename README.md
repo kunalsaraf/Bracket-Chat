@@ -1,4 +1,4 @@
-![Bracket Chat Logo](assets/images/bracket_icon.png | width=100)
+<img src="assets/images/bracket_icon.png" alt="Bracket Chat Logo" width="200px" height="200px">
 
 # Bracket Chat
 
